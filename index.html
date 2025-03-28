@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <title>Wochenplan</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 2rem;
+      background-color: #f9f9f9;
+    }
+    .wochenplan {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr); /* statt 2 Spalten jetzt 7 */
+  gap: 2rem;
+}
+    .tag {
+      background: #fff;
+      padding: 1rem;
+      border-radius: 1rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    }
+    .tag h2 {
+      margin-top: 0;
+    }
+    .slot {
+      position: relative;
+      margin-bottom: 1rem;
+      padding: 1rem;
+      border-radius: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 4rem;
+      font-size: 1.8rem;
+      font-family: "Montserrat", sans-serif;
+      font-optical-sizing: auto;
+      font-style: normal;
+      color: #fff;
+    }
+    .slot::before {
+      content: attr(data-time);
+      position: absolute;
+      top: 0.5rem;
+      left: 1rem;
+      font-size: 4rem;
+      font-weight: 900;
+      font-family: "Montserrat", sans-serif;
+      color: rgba(7, 7, 7, 0.08);
+      text-transform: uppercase;
+      pointer-events: none;
+      user-select: none;
+    }
+    .wild {
+      background-color: #578FCA;
+      font-size: 1.5rem;
+      height: calc(2 * 4rem);
+    }
+    .blocker {
+      background-color: #A1E3F9;
+      height: calc(2 * 4rem);
+    }
+    .user {
+      background-color: #D1F8EF;
+      color: #578FCA;
+    }
+    @media (max-width: 800px) {
+      .wochenplan {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (max-width: 600px) {
+      .wochenplan {
+        grid-template-columns: 1fr;
+      }
+    }
+    .blocker3x {
+        background-color: #A1E3F9;
+        height: calc(3 * 4rem + 3rem); /* 3 Stunden */
+    }
+
+    .notizen {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 3rem;
+  padding: 2rem;
+  background-color: #f0f4f8;
+  border-radius: 1rem;
+  font-family: "Poppins", sans-serif;
+  font-size: 1rem;
+  color: #444;
+  line-height: 1.6;
+  gap: 3rem;
+}
+
+.notizen .spalte {
+  flex: 1;
+  max-width: 50ch; /* verhindert zu lange Zeilen */
+}
+
+.notizen p {
+  margin: 0.75rem 0;
+}
+
+.notizen {
+  border: 1px solid #d9e2ec;
+}
+
+
+  </style>
+</head>
+<body>
+  <h1>Wochenplan</h1>
+  <div class="wochenplan">
+    <div class="tag">
+      <h2>Montag</h2>
+      <div class="slot wild" data-time="8 15">WILD</div>
+      <div class="slot blocker" data-time="16 17">BLOCKER</div>
+      <div class="slot user" data-time="17">Aivory</div>
+      <div class="slot blocker" data-time="18 19">BLOCKER</div>
+      <div class="slot user" data-time="20">Lena Summer</div>
+      <div class="slot blocker3x" data-time="18 21">BLOCKER</div>
+    </div>
+    <div class="tag">
+      <h2>Dienstag</h2>
+      <div class="slot wild" data-time="8 15">WILD</div>
+      <div class="slot blocker" data-time="16 17">BLOCKER</div>
+      <div class="slot user" data-time="17">Melissa</div>
+      <div class="slot blocker" data-time="18 19">BLOCKER</div>
+      <div class="slot user" data-time="20">Emilia</div>
+      <div class="slot blocker3x" data-time="18 21">BLOCKER</div>
+    </div>
+    <div class="tag">
+      <h2>Mittwoch</h2>
+      <div class="slot wild" data-time="8 15">WILD</div>
+      <div class="slot blocker" data-time="16 17">BLOCKER</div>
+      <div class="slot user" data-time="17">Kim</div>
+      <div class="slot blocker" data-time="18 19">BLOCKER</div>
+      <div class="slot user" data-time="20">Sofiiii</div>
+      <div class="slot blocker3x" data-time="18 21">BLOCKER</div>
+    </div>
+    <div class="tag">
+      <h2>Donnerstag</h2>
+      <div class="slot wild" data-time="8 15">WILD</div>
+      <div class="slot blocker" data-time="16 17">BLOCKER</div>
+      <div class="slot user" data-time="17">Luci</div>
+      <div class="slot blocker" data-time="18 19">BLOCKER</div>
+      <div class="slot user" data-time="20">Mia</div>
+      <div class="slot blocker3x" data-time="18 21">BLOCKER</div>
+    </div>
+    <div class="tag">
+      <h2>Freitag</h2>
+      <div class="slot wild" data-time="8 15">WILD</div>
+      <div class="slot blocker" data-time="16 17">BLOCKER</div>
+      <div class="slot user" data-time="17">Sophia Perego</div>
+      <div class="slot blocker" data-time="18 19">BLOCKER</div>
+      <div class="slot user" data-time="20">Sarah</div>
+      <div class="slot blocker" data-time="21 23">BLOCKER</div>
+      <div class="slot user" data-time="23">FREI</div>
+    </div>
+    <div class="tag">
+        <h2>Samstag</h2>
+        <div class="slot wild" data-time="10 15">WILD</div>
+        <div class="slot blocker" data-time="15 16">BLOCKER</div>
+        <div class="slot user" data-time="16">Lina</div>
+        <div class="slot blocker" data-time="17 18">BLOCKER</div>
+        <div class="slot user" data-time="19">Malou</div>
+        <div class="slot blocker" data-time="20 21">BLOCKER</div>
+        <div class="slot user" data-time="22">FREI</div>
+      </div>
+      
+      <div class="tag">
+        <h2>Sonntag</h2>
+        <div class="slot wild" data-time="10 15">WILD</div>
+        <div class="slot blocker" data-time="15 16">BLOCKER</div>
+        <div class="slot user" data-time="16">Lotte</div>
+        <div class="slot blocker" data-time="17 18">BLOCKER</div>
+        <div class="slot user" data-time="19">S. Faye</div>
+        <div class="slot blocker" data-time="20 21">BLOCKER</div>
+        <div class="slot user" data-time="22">FREI</div>
+    </div>
+  </div>
+
+  <div class="notizen">
+    <div class="spalte">
+      <p>✅ Mindestens <strong>1 mal pro Woche</strong>, frei oder festen Slot</p>
+      <p>⏳ maximal alle 48 Stunden</p>
+      <p>🔲 Nur Kästchen mit <strong>"FREI"</strong> sind verfügbar</p>
+      <p>⏰<strong>mindestens 24 Stunden vorher</strong> eintragen</p>
+      <p>📩 bei Verhinderung oder Verspätung bitte melden</p>
+      <p>⚠️ 15 Minuten nach Verabredung wird sofortige Collabannahme nicht mehr garantiert</p>
+      <p>🤝 Viel Erfolg beim Posten</p>
+    </div>
+    <div class="spalte">
+      <p>👥 Wer mehr als ein Model hat, kann sich nur einmal eintragen,<p>
+        🧑‍🤝‍🧑 restliche Model dürfen in freier Zeit collaben</p>
+      <p>❌ 30 Minuten nach collab wird backup aktiviert, falls vorhanden</p>
+      <p>⏱️ wenn collab unentschuldigt ausgelassen wird, wird namen entfernt, Slot wird wieder leer</p>
+    </div>
+  </div>
+</body>
+</html>
