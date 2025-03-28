@@ -8,120 +8,41 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="color.css">
+
+  
   <title>Wochenplan</title>
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      margin: 0;
-      padding: 2rem;
-      background-color: #f9f9f9;
-    }
-    .wochenplan {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr); /* statt 2 Spalten jetzt 7 */
-  gap: 2rem;
-}
-    .tag {
-      background: #fff;
-      padding: 1rem;
-      border-radius: 1rem;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-    }
-    .tag h2 {
-      margin-top: 0;
-    }
-    .slot {
-      position: relative;
-      margin-bottom: 1rem;
-      padding: 1rem;
-      border-radius: 0.75rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 4rem;
-      font-size: 1.8rem;
-      font-family: "Montserrat", sans-serif;
-      font-optical-sizing: auto;
-      font-style: normal;
-      color: #fff;
-    }
-    .slot::before {
-      content: attr(data-time);
-      position: absolute;
-      top: 0.5rem;
-      left: 1rem;
-      font-size: 4rem;
-      font-weight: 900;
-      font-family: "Montserrat", sans-serif;
-      color: rgba(7, 7, 7, 0.08);
-      text-transform: uppercase;
-      pointer-events: none;
-      user-select: none;
-    }
-    .wild {
-      background-color: #578FCA;
-      font-size: 1.5rem;
-      height: calc(2 * 4rem);
-    }
-    .blocker {
-      background-color: #A1E3F9;
-      height: calc(2 * 4rem);
-    }
-    .user {
-      background-color: #D1F8EF;
-      color: #578FCA;
-    }
-    @media (max-width: 800px) {
-      .wochenplan {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-    @media (max-width: 600px) {
-      .wochenplan {
-        grid-template-columns: 1fr;
-      }
-    }
-    .blocker3x {
-        background-color: #A1E3F9;
-        height: calc(3 * 4rem + 3rem); /* 3 Stunden */
-    }
 
-    .notizen {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 3rem;
-  padding: 2rem;
-  background-color: #f0f4f8;
-  border-radius: 1rem;
-  font-family: "Poppins", sans-serif;
-  font-size: 1rem;
-  color: #444;
-  line-height: 1.6;
-  gap: 3rem;
-}
-
-.notizen .spalte {
-  flex: 1;
-  max-width: 50ch; /* verhindert zu lange Zeilen */
-}
-
-.notizen p {
-  margin: 0.75rem 0;
-}
-
-.notizen {
-  border: 1px solid #d9e2ec;
-}
-
-
-  </style>
 </head>
 <body>
-    <div style="text-align:left; margin-top: 2rem;">
-        <button onclick="startEintrag()" style="padding: 1rem 2rem; font-size: 1rem; border-radius: 1rem; background:#57ca5d; color:white; border:none; cursor:pointer;">
-          Termin eintragen
-        </button>
+    <!-- BUTTON -->
+<!-- Termin-Button -->
+  <!-- PIN-Eingabe -->
+  <div id="pinEingabe" style="display:none; text-align:center; margin-top: 1rem;">
+    <form onsubmit="sendePin(event)">
+      <label for="pin">PIN eingeben:</label>
+      <input type="text" id="pin" name="pin" required />
+      <button type="submit">Bestätigen</button>
+    </form>
+  </div>
+
+  <div style="text-align:center; margin-top: 2rem;">
+    <button onclick="showModal()" style="padding: 1rem 2rem; font-size: 1rem; border-radius: 1rem; background:#57ca5d; color:white; border:none; cursor:pointer;">
+      Termin eintragen
+    </button>
+  </div>
+
+  <div id="modal" style="display: none;">
+    <div class="modal-overlay">
+      <div class="modal-box">
+        <h3>PIN eingeben</h3>
+        <input type="text" id="pinInput" placeholder="Dein PIN">
+        <button onclick="sendPin()">Bestätigen</button>
       </div>
+    </div>
+  </div>
+
+
   <h1>Wochenplan</h1>
   <div class="wochenplan">
     <div class="tag">
@@ -210,5 +131,15 @@
       <p>⏱️ wenn collab unentschuldigt ausgelassen wird, wird namen entfernt, Slot wird wieder leer</p>
     </div>
   </div>
+  <script src="script.js"></script>
 </body>
+
+
+<!-- Termin-Button -->
+
+
+  
+  
+
+
 </html>
