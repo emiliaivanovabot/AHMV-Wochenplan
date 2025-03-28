@@ -1,41 +1,33 @@
-// Pop-up öffnen
-function showModal() {
-    document.getElementById("modal").style.display = "block";
-  }
-  
-  // Pop-up schließen, wenn außerhalb geklickt wird
-  window.onclick = function(event) {
-    const modal = document.getElementById("modal");
-    if (event.target === modal) {
-      modal.style.display = "none";
-    }
-  }
-  
-  // PIN senden an n8n Webhook
-  function sendPin() {
+function sendPin() {
     const pin = document.getElementById("pinInput").value.trim();
     if (!pin) {
-      alert("Bitte PIN eingeben");
-      return;
+        alert("Bitte PIN eingeben");
+        return;
     }
-  
+
     fetch("https://makeinsta.duckdns.org/webhook/f509f076-8d11-4deb-92c3-776e4ffd19b3", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ pin })
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ pin })
     })
-    .then(res => res.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
     .then(data => {
-      if (data.status === "ok") {
-        alert("PIN korrekt ✅");
-        document.getElementById("modal").style.display = "none";
-      } else {
-        alert("PIN falsch ❌");
-      }
+        if (data.status === "ok") {
+            document.getElementById("modal").style.display = "none";
+            // Optional: Show success message
+            alert("PIN korrekt ✅");
+        } else {
+            alert("PIN falsch ❌");
+        }
     })
-    .catch(err => {
-      console.error("Fehler beim Senden:", err);
-      alert("Fehler beim Senden des PINs");
+    .catch(error => {
+        console.error("Fehler:", error);
+        alert("Fehler beim Senden des PINs");
+        // Make sure modal stays open on error
     });
-  }
-  
+}
