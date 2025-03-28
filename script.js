@@ -28,7 +28,7 @@ function showModal() {
     })
     .then(res => res.json())
     .then(data => {
-      if (data.status === "ok") {
+      if (res.status === 200 && data.status === "ok") {
         alert("PIN korrekt ✅");
         document.getElementById("modal").style.display = "none";
         // hier später: Chat starten, redirect etc.
