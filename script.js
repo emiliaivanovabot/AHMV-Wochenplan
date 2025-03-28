@@ -26,13 +26,18 @@ function showModal() {
       },
       body: JSON.stringify({ pin })
     })
-    .then(() => {
-      alert("PIN gesendet: " + pin);
-      document.getElementById("modal").style.display = "none";
+    .then(res => res.json())
+    .then(data => {
+      if (data.status === "ok") {
+        alert("PIN korrekt ✅");
+        document.getElementById("modal").style.display = "none";
+        // hier später: Chat starten, redirect etc.
+      } else {
+        alert("PIN falsch ❌");
+      }
     })
-    .catch(error => {
-      alert("Fehler beim Senden des PINs");
-      console.error(error);
-    });
-  }
-  
+    .catch(err => {
+        console.error("Fehler beim Senden:", err);
+        alert("Fehler beim Senden des PINs");
+      });
+    }
