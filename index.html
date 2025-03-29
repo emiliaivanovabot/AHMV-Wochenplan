@@ -2,46 +2,121 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="color.css">
-
-  
-  <title>Wochenplan</title>
-
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="color.css">
+    
+    
+<title>Wochenplan</title>
 </head>
 <body>
-    <!-- BUTTON -->
+    <script>
+    function showModal() {
+        document.getElementById("modal").style.display = "block";
+    }
 
-  <!-- PIN-Eingabe -->
-  <div style="text-align:center; margin-top: 2rem;">
-    <button onclick="showModal()" style="padding: 1rem 2rem; font-size: 1rem; border-radius: 1rem; background:#57ca5d; color:white; border:none; cursor:pointer;">
-        Termin eintragen
-    </button>
-</div>
+    function sendPin() {
+        const pin = document.getElementById("pinInput").value.trim();
+        if (!pin) {
+            document.getElementById("feedback").innerHTML = "Bitte PIN eingeben";
+            return;
+        }
 
-<div id="modal" class="modal-overlay" style="display: none;">
-    <div class="modal-box">
-        <h3>PIN eingeben</h3>
-        <input type="text" id="pinInput" placeholder="Dein PIN">
-        <button onclick="sendPin()">Bestätigen</button>
+        fetch("https://makeinsta.duckdns.org/webhook-test/f509f076-8d11-4deb-92c3-776e4ffd19b3", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ pin })
+        })
+        .then(response => {
+            console.log("Server response:", response);
+            return response.json();
+        })
+        .then(data => {
+            console.log("Parsed data:", data);
+            if (data.status === "success") {
+                document.getElementById("statusMessage").innerHTML = "PIN erfolgreich ✅";
+                convertModalToChat();
+            } else {
+                document.getElementById("feedback").innerHTML = "Falsche PIN ❌";
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            document.getElementById("feedback").innerHTML = "Fehler beim Senden ❌";
+        });
+    }
+
+        function convertModalToChat() {
+            const modalBox = document.querySelector('.modal-box');
+            modalBox.innerHTML = `
+                <div class="chat-container">
+                    <h3>Chat Assistant</h3>
+                    <div class="chat-messages" id="chatMessages">
+                        <div class="message bot">
+                            Hallo! Wie kann ich dir bei der Terminplanung helfen?
+                        </div>
+                    </div>
+                    <div class="chat-input">
+                        <input type="text" id="chatInput" placeholder="Deine Nachricht...">
+                        <button onclick="sendMessage()">Senden</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            if (!message) return;
+
+            addMessage(message, 'user');
+            input.value = '';
+
+            setTimeout(() => {
+                addMessage('Ich verarbeite deine Anfrage...', 'bot');
+            }, 500);
+        }
+
+        function addMessage(text, sender) {
+            const messages = document.getElementById('chatMessages');
+            messages.innerHTML += `
+                <div class="message ${sender}">
+                    ${text}
+                </div>
+            `;
+            messages.scrollTop = messages.scrollHeight;
+        }
+
+        // Modal außerhalb schließen
+        window.onclick = function(event) {
+            const modal = document.getElementById("modal");
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+
+    <!-- Button -->
+    <div style="text-align:center; margin-top: 2rem;">
+        <button onclick="showModal()" style="padding: 1rem 2rem; font-size: 1rem; border-radius: 1rem; background:#57ca5d; color:white; border:none; cursor:pointer;">
+            Termin eintragen
+        </button>
     </div>
-</div>
 
-<!-- Modal -->
-<div id="modal" class="modal-overlay" style="display: none;">
-    <div class="modal-box">
-        <h3>PIN eingeben</h3>
-        <input type="text" id="pinInput" placeholder="Dein PIN">
-        <button onclick="sendPin()">Bestätigen</button>
+    <!-- Modal -->
+    <div id="modal" class="modal-overlay" style="display: none;">
+        <div class="modal-box">
+            <h3>PIN eingeben</h3>
+            <input type="text" id="pinInput" placeholder="Dein PIN">
+            <div id="feedback" style="color: red; margin: 10px 0;"></div>
+            <button onclick="sendPin()">Bestätigen</button>
+        </div>
     </div>
-</div>
-
-
+    <div id="statusMessage" style="text-align: center; margin-top: 10px;"></div>
 
   <h1>Wochenplan</h1>
   <div class="wochenplan">
@@ -131,15 +206,8 @@
       <p>⏱️ wenn collab unentschuldigt ausgelassen wird, wird namen entfernt, Slot wird wieder leer</p>
     </div>
   </div>
-  <script src="script.js"></script>
+
 </body>
-
-
-<!-- Termin-Button -->
-
-
-  
-  
-
-
 </html>
+  
+ 
