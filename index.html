@@ -14,6 +14,23 @@
 <title>Wochenplan</title>
 </head>
 <body>
+
+    <script>
+        window.chatWidgetConfig = {
+            webhook: {
+                url: 'https://makeinsta.duckdns.org/webhook/58f2028e-cff8-4676-8fe1-96a740ed6fbf/chat',
+                route: 'general'
+            },
+            style: {
+                primiaryColor: '#854fff',
+                secondaryColor: '#854fff',
+                position: 'right',
+                backgroundColor: '#fff',
+                fontcolor: '#344332'
+            }
+        };
+
+    </script>
     <script>
     function showModal() {
         document.getElementById("modal").style.display = "block";
@@ -117,6 +134,116 @@
         </div>
     </div>
     <div id="statusMessage" style="text-align: center; margin-top: 10px;"></div>
+
+
+        <!-- Chat Widget Button -->
+        <button id="chat-widget-button">💬</button>
+
+        <!-- Chat Widget -->
+        <div id="chat-widget-container">
+            <div id="chat-widget-header">
+                <span>Chat</span>
+                <button onclick="closeChatWidget()">✖</button>
+            </div>
+            <div id="chat-widget-body">
+                <p style="margin-bottom: 20px;"><strong>Hi 👋, how can we help?</strong></p>
+            </div>
+            <div id="chat-widget-footer">
+                <input type="text" id="chat-widget-input" placeholder="Type your message here...">
+                <button id="chat-widget-send">Send</button>
+            </div>
+        </div>
+    
+        <!-- Chat Widget Script -->
+        <script>
+            window.ChatWidgetConfig = {
+                webhook: {
+                    url: 'YOUR-URL-HERE',
+                    route: 'general'
+                },
+                style: {
+                    primaryColor: '#854fff',
+                    secondaryColor: '#6b3fd4',
+                    position: 'right',
+                    backgroundColor: '#ffffff',
+                    fontColor: '#333333'
+                }
+            };
+    
+            // Function to generate or retrieve a unique chat ID
+            function getChatId() {
+                let chatId = sessionStorage.getItem("chatId");
+                if (!chatId) {
+                    chatId = "chat_" + Math.random().toString(36).substr(2, 9); // Unique ID
+                    sessionStorage.setItem("chatId", chatId);
+                }
+                return chatId;
+            }
+    
+            // Show chat widget and hide bubble
+            document.getElementById("chat-widget-button").addEventListener("click", function() {
+                document.getElementById("chat-widget-container").style.display = "flex";
+                document.getElementById("chat-widget-button").style.display = "none";
+            });
+    
+            // Close chat widget and show bubble
+            function closeChatWidget() {
+                document.getElementById("chat-widget-container").style.display = "none";
+                document.getElementById("chat-widget-button").style.display = "flex";
+            }
+    
+            // Send message to n8n webhook
+            document.getElementById("chat-widget-send").addEventListener("click", function() {
+                let message = document.getElementById("chat-widget-input").value;
+                if (message.trim() === "") return;
+    
+                let chatBody = document.getElementById("chat-widget-body");
+                let newMessage = document.createElement("p");
+                newMessage.textContent = message;
+                newMessage.style.color = "#333";
+                newMessage.style.background = "#f1f1f1";
+                chatBody.appendChild(newMessage);
+    
+                let chatId = getChatId(); // Retrieve the session chat ID
+    
+                fetch(window.ChatWidgetConfig.webhook.url, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        chatId: chatId,  // Attach chat ID for memory tracking
+                        message: message,
+                        route: window.ChatWidgetConfig.webhook.route
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    let botMessage = document.createElement("p");
+                    botMessage.innerHTML = data.output || "Sorry, I couldn't understand that.";
+                    botMessage.style.color = "#fff";
+                    botMessage.style.background = "#854fff";
+                    botMessage.style.marginTop = "10px";
+                    chatBody.appendChild(botMessage);
+                })
+                .catch(error => console.error("Error:", error));
+    
+                document.getElementById("chat-widget-input").value = "";
+            });
+        </script>
+
+    <!-- Chat Widget Button -->
+    <button id="chat-widget-button">💬</button>
+
+
+    <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+<script type="module">
+	import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+	createChat({
+		webhookUrl: 'https://makeinsta.duckdns.org/webhook/71627299-c745-48aa-9b2a-6221f69c8154/chat'
+	});
+</script>
+
+
 
   <h1>Wochenplan</h1>
   <div class="wochenplan">
